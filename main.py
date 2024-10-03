@@ -77,8 +77,42 @@ def main():
                 return
 
             #User presses a keydown
-            #if event.type == pygame.KEYDOWN:
+            if event.type == pygame.KEYDOWN:
+                
+                #Player 1
+                if event.key == pygame.K_w: #Goes Up
+                    paddle_1_move = -0.5
+                elif event.key == pygame.K_s: #Goes Down
+                    paddle_1_move = 0.5
 
+                #Player 2
+                if event.key == pygame.K_UP:
+                    paddle_2_move = -0.5
+                elif event.key == pygame.K_DOWN:
+                    paddle_2_move = 0.5
+                
+                # if the player released a key
+                if event.type == pygame.KEYUP:
+                    # if the key released is w or s, stop the movement of paddle_1
+                    if event.key == pygame.K_w or event.key == pygame.K_s:
+                        paddle_1_move = 0.0
+
+                    # if the key released is the up or down arrow, stop the movement of paddle_2
+                    if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
+                        paddle_2_move = 0.0
+                    
+        paddle_1.top += paddle_1_move * delta_time
+        paddle_2.top += paddle_2_move * delta_time
+
+        if paddle_1.top < 0:
+            paddle_1.top = 0
+        if paddle_1.bottom > SCREEN_HEIGHT:
+            paddle_1.bottom = SCREEN_HEIGHT
+
+        if paddle_2.top < 0:
+            paddle_2.top = 0
+        if paddle_2.bottom > SCREEN_HEIGHT:
+            paddle_2.bottom = SCREEN_HEIGHT
     
         #Draws player 1 and player 2's paddle and the ball with white color
         pygame.draw.rect(screen, COLOR_WHITE, paddle_1)

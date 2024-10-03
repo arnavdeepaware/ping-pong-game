@@ -13,3 +13,17 @@ def main():
 
     #Game Set up
     pygame.init()
+
+    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    pygame.display.set_caption('Play Pong!')
+
+    #GAME LOOP
+    while True:
+        screen.fill(COLOR_BLACK)
+
+        #checking for events
+        for event in pygame.event.get():
+
+            #For every game event checks if the user quit at any instance
+            if event.type == pygame.QUIT():
+                return

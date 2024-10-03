@@ -91,19 +91,21 @@ def main():
                 elif event.key == pygame.K_DOWN:
                     paddle_2_move = 0.5
                 
-                # if the player released a key
-                if event.type == pygame.KEYUP:
-                    # if the key released is w or s, stop the movement of paddle_1
-                    if event.key == pygame.K_w or event.key == pygame.K_s:
-                        paddle_1_move = 0.0
+            # if the player released a key
+            if event.type == pygame.KEYUP:
+                # if the key released is w or s, stop the movement of paddle_1
+                if event.key == pygame.K_w or event.key == pygame.K_s:
+                    paddle_1_move = 0.0
 
-                    # if the key released is the up or down arrow, stop the movement of paddle_2
-                    if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
-                        paddle_2_move = 0.0
-                    
+                # if the key released is the up or down arrow, stop the movement of paddle_2
+                if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
+                    paddle_2_move = 0.0
+        
+        #Paddle Movements            
         paddle_1.top += paddle_1_move * delta_time
         paddle_2.top += paddle_2_move * delta_time
 
+        #Ensuring Paddle Stays Within Bounds
         if paddle_1.top < 0:
             paddle_1.top = 0
         if paddle_1.bottom > SCREEN_HEIGHT:
@@ -113,6 +115,31 @@ def main():
             paddle_2.top = 0
         if paddle_2.bottom > SCREEN_HEIGHT:
             paddle_2.bottom = SCREEN_HEIGHT
+        
+        #Ball Movements
+        if ball.left <= 0 or ball.right >= SCREEN_WIDTH:
+            return  #End game if ball touches the sides
+        
+        #Top / Bottom 
+        if ball.top < 0:
+            ball_accel_y *= -1
+            ball.top = 0
+        if ball.bottom > SCREEN_HEIGHT - ball.height:
+            ball_accel_y *= -1
+            ball.bottom = SCREEN_HEIGHT - ball.height
+
+        #If ball collides with the paddle
+        if paddle_1.colliderect(ball) and paddle_1.left < ball.left:
+            ball_accel_x *= -1
+            ball.left += 5
+        if paddle_2.colliderect(ball) and paddle_2.left > ball.left:
+            ball_accel_x *= -1
+            ball.left -= 5
+
+        # move the ball if game started
+        if started:
+            ball.left += ball_accel_x * delta_time
+            ball.top += ball_accel_y * delta_time    
     
         #Draws player 1 and player 2's paddle and the ball with white color
         pygame.draw.rect(screen, COLOR_WHITE, paddle_1)

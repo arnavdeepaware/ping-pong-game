@@ -25,5 +25,7 @@ def main():
         for event in pygame.event.get():
 
             #For every game event checks if the user quit at any instance
-            if event.type == pygame.QUIT():
+            if event.type == pygame.QUIT:
                 return
+
+#main()

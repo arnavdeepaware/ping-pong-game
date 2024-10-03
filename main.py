@@ -36,9 +36,38 @@ def main():
     if random.randint(1, 2) == 1:
         ball_accel_y *= -1
 
+    #Clock Object
+    clock = pygame.time.Clock()
+    started = False
+
     #GAME LOOP
     while True:
         screen.fill(COLOR_BLACK)
+
+        if not started:
+            
+            font = pygame.font.SysFont('Consolas', 30)
+
+            #Draw some starter text for the game
+            text = font.render('Press Space to Start', True, COLOR_WHITE)
+            text_rect = text.get_rect()
+            text_rect.center = (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
+            screen.blit(text, text_rect)
+
+            pygame.display.flip()
+
+            clock.tick(60)
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    return
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_SPACE:
+                        started = True
+            continue
+
+        delta_time = clock.tick(60)
 
         #checking for events
         for event in pygame.event.get():
@@ -46,6 +75,10 @@ def main():
             #For every game event checks if the user quit at any instance
             if event.type == pygame.QUIT:
                 return
+
+            #User presses a keydown
+            #if event.type == pygame.KEYDOWN:
+
     
         #Draws player 1 and player 2's paddle and the ball with white color
         pygame.draw.rect(screen, COLOR_WHITE, paddle_1)

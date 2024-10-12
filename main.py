@@ -1,5 +1,6 @@
 import pygame
 import random
+import asyncio
 
 #Dimensions for game window
 SCREEN_WIDTH = 960
@@ -9,7 +10,7 @@ SCREEN_HEIGHT = 720
 COLOR_BLACK = (0, 0, 0)
 COLOR_WHITE = (255, 255, 255)
 
-def main():
+async def main():
 
     #Game Set up
     pygame.init()
@@ -43,6 +44,7 @@ def main():
     #GAME LOOP
     while True:
         screen.fill(COLOR_BLACK)
+        await asyncio.sleep(0)
 
         if not started:
             
@@ -55,6 +57,7 @@ def main():
             screen.blit(text, text_rect)
 
             pygame.display.flip()
+            await asyncio.sleep(0)
 
             clock.tick(60)
 
@@ -65,6 +68,7 @@ def main():
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_SPACE:
                         started = True
+            await asyncio.sleep(0)
             continue
 
         delta_time = clock.tick(60)
@@ -148,7 +152,8 @@ def main():
 
         #Update display
         pygame.display.update()
+        await asyncio.sleep(0)
 
 
 if __name__ == '__main__':
-    main()
+    asyncio.run(main())
